@@ -24,6 +24,12 @@ services:
       - db:/var/lib/mysql
 
 
+  node-exporter:
+    image: prom/node-exporter
+    ports:
+      - "9100:9100"
+
+
 volumes:
   db:
 
