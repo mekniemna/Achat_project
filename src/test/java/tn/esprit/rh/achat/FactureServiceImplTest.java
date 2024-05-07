@@ -1,6 +1,7 @@
 package tn.esprit.rh.achat;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import tn.esprit.rh.achat.entities.Facture;
@@ -13,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class FactureServiceImplTest {
 
-    @Autowired
+    @InjectMocks
     private FactureServiceImpl factureService;
 
     @Test
