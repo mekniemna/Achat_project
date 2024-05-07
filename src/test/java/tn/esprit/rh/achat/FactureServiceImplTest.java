@@ -10,33 +10,75 @@ import tn.esprit.rh.achat.services.FactureServiceImpl;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import tn.esprit.rh.achat.entities.*;
+import tn.esprit.rh.achat.repositories.*;
+import tn.esprit.rh.achat.services.FactureServiceImpl;
+import tn.esprit.rh.achat.services.ReglementServiceImpl;
 
+import java.util.*;
 
-public class FactureServiceImplTest {
+import static org.mockito.Mockito.*;
+
+class FactureServiceImplTest {
+
+    @Mock
+    FactureRepository factureRepository;
+
+    @Mock
+    OperateurRepository operateurRepository;
+
+    @Mock
+    DetailFactureRepository detailFactureRepository;
+
+    @Mock
+    FournisseurRepository fournisseurRepository;
+
+    @Mock
+    ProduitRepository produitRepository;
+
+    @Mock
+    ReglementServiceImpl reglementService;
 
     @InjectMocks
-    private FactureServiceImpl factureService;
+    FactureServiceImpl factureService;
 
-    @Test
-    public void testRetrieveAllFactures() {
-        List<Facture> factures = factureService.retrieveAllFactures();
-        assertNotNull(factures);
-        assertFalse(factures.isEmpty());
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    public void testAddFacture() {
-        // Create a new Facture object
+    void testRetrieveAllFactures() {
+        // Given
+        List<Facture> factures = new ArrayList<>();
+        factures.add(new Facture());
+        factures.add(new Facture());
+        when(factureRepository.findAll()).thenReturn(factures);
+
+        // When
+        List<Facture> result = factureService.retrieveAllFactures();
+
+        // Then
+        assert !result.isEmpty();
+        assert result.size() == 2;
+    }
+
+    @Test
+    void testAddFacture() {
+        // Given
         Facture facture = new Facture();
-        // Add necessary attributes to the facture object
 
-        // Add the facture
-        Facture savedFacture = factureService.addFacture(facture);
-        assertNotNull(savedFacture);
-        // Check if the savedFacture is the same as the facture added
-        // You can assert based on IDs or other unique identifiers
-        // Example: assertEquals(facture.getId(), savedFacture.getId());
+        // When
+        factureService.addFacture(facture);
+
+        // Then
+        verify(factureRepository, times(1)).save(facture);
     }
 
-    // Add more test methods for other functionalities of FactureServiceImpl
+    // You can continue adding similar tests for other methods in the service class.
 }
