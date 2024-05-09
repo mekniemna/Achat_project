@@ -1,4 +1,5 @@
 package tn.esprit.rh.achat;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -41,27 +42,32 @@ class CategorieProduitServiceImplTest {
         // Then
         assert !result.isEmpty();
         assert result.size() == 2;
+        Assertions.assertTrue(result.containsAll(categories));
     }
 
     @Test
     void testAddCategorieProduit() {
         // Given
         CategorieProduit categorieProduit = new CategorieProduit();
+        categorieProduit.setIdCategorieProduit(1L);
 
         // When
-        categorieProduitService.addCategorieProduit(categorieProduit);
+        when(categorieProduitRepository.save(categorieProduit)).thenReturn(categorieProduit);
+       CategorieProduit c =categorieProduitService.addCategorieProduit(categorieProduit);
 
         // Then
-        verify(categorieProduitRepository, times(1)).save(categorieProduit);
+        Assertions.assertTrue(c.equals(categorieProduit));
     }
 
     @Test
     void testDeleteCategorieProduit() {
         // Given
         Long categorieId = 1L;
+        CategorieProduit categorieProduit=new CategorieProduit();
+        categorieProduit.setIdCategorieProduit(1L);
 
         // When
-        categorieProduitService.deleteCategorieProduit(categorieId);
+        categorieProduitService.deleteCategorieProduit(1L);
 
         // Then
         verify(categorieProduitRepository, times(1)).deleteById(categorieId);
@@ -71,12 +77,14 @@ class CategorieProduitServiceImplTest {
     void testUpdateCategorieProduit() {
         // Given
         CategorieProduit categorieProduit = new CategorieProduit();
+        categorieProduit.setIdCategorieProduit(1L);
 
         // When
-        categorieProduitService.updateCategorieProduit(categorieProduit);
+        when(categorieProduitRepository.save(categorieProduit)).thenReturn(categorieProduit);
+        CategorieProduit c=categorieProduitService.updateCategorieProduit(categorieProduit);
 
         // Then
-        verify(categorieProduitRepository, times(1)).save(categorieProduit);
+        Assertions.assertTrue(c.equals(categorieProduit));
     }
 
     @Test
@@ -84,12 +92,14 @@ class CategorieProduitServiceImplTest {
         // Given
         Long categorieId = 1L;
         CategorieProduit categorieProduit = new CategorieProduit();
-        when(categorieProduitRepository.findById(categorieId)).thenReturn(Optional.of(categorieProduit));
+        categorieProduit.setIdCategorieProduit(1L);
+        when(categorieProduitRepository.findById(1L)).thenReturn(Optional.of(categorieProduit));
 
         // When
         CategorieProduit result = categorieProduitService.retrieveCategorieProduit(categorieId);
 
         // Then
         assert result != null;
+        Assertions.assertTrue(categorieProduit.equals(result));
     }
 }

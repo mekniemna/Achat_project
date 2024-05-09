@@ -1,10 +1,13 @@
 package tn.esprit.rh.achat;
 
+import org.assertj.core.api.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import tn.esprit.rh.achat.entities.Facture;
 import tn.esprit.rh.achat.entities.Reglement;
 import tn.esprit.rh.achat.repositories.FactureRepository;
 import tn.esprit.rh.achat.repositories.ReglementRepository;
@@ -15,6 +18,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 class ReglementServiceImplTest {
@@ -47,6 +51,8 @@ class ReglementServiceImplTest {
         // Then
         assert !result.isEmpty();
         assert result.size() == 2;
+        assert !result.isEmpty();
+        assertEquals(2, result.size());
     }
 
     @Test
@@ -59,6 +65,7 @@ class ReglementServiceImplTest {
 
         // Then
         assert result != null;
+        Assertions.assertEquals(reglement,result);
     }
 
     @Test
@@ -66,6 +73,7 @@ class ReglementServiceImplTest {
         // Given
         Long reglementId = 1L;
         Reglement reglement = new Reglement();
+        reglement.setIdReglement(reglementId);
         when(reglementRepository.findById(reglementId)).thenReturn(Optional.of(reglement));
 
         // When
@@ -73,6 +81,7 @@ class ReglementServiceImplTest {
 
         // Then
         assert result != null;
+        Assertions.assertEquals(result,reglement);
     }
 
     @Test
@@ -80,7 +89,12 @@ class ReglementServiceImplTest {
         // Given
         Long factureId = 1L;
         List<Reglement> reglements = new ArrayList<>();
-        reglements.add(new Reglement());
+        Reglement reglement = new Reglement();
+        reglement.setIdReglement(1L);
+        Facture  facture = new Facture();
+        facture.setIdFacture(factureId);
+        reglement.setFacture(facture);
+        reglements.add(reglement);
         when(reglementRepository.retrieveReglementByFacture(factureId)).thenReturn(reglements);
 
         // When
@@ -89,6 +103,7 @@ class ReglementServiceImplTest {
         // Then
         assert !result.isEmpty();
         assert result.size() == 1;
+        Assertions.assertEquals(reglements,result);
     }
 
     @Test
@@ -103,5 +118,6 @@ class ReglementServiceImplTest {
 
         // Then
         assert result == 100f;
+        Assertions.assertEquals(result,100f);
     }
 }

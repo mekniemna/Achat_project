@@ -1,5 +1,6 @@
 package tn.esprit.rh.achat;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,18 +67,21 @@ class FactureServiceImplTest {
         // Then
         assert !result.isEmpty();
         assert result.size() == 2;
+        Assertions.assertEquals(factures,result);
     }
 
     @Test
     void testAddFacture() {
         // Given
         Facture facture = new Facture();
+        facture.setIdFacture(1L);
 
         // When
-        factureService.addFacture(facture);
+        when(factureRepository.save(facture)).thenReturn(facture);
+        Facture f=factureService.addFacture(facture);
 
         // Then
-        verify(factureRepository, times(1)).save(facture);
+        Assertions.assertTrue(f.equals(facture));
     }
 
 }

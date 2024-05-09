@@ -1,4 +1,5 @@
 package tn.esprit.rh.achat;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -33,6 +34,7 @@ class StockServiceImplTest {
         List<Stock> stocks = new ArrayList<>();
         stocks.add(new Stock());
         stocks.add(new Stock());
+
         when(stockRepository.findAll()).thenReturn(stocks);
 
         // When
@@ -41,6 +43,7 @@ class StockServiceImplTest {
         // Then
         assert !result.isEmpty();
         assert result.size() == 2;
+        Assertions.assertEquals(stocks,result);
     }
 
     @Test
@@ -54,6 +57,7 @@ class StockServiceImplTest {
 
         // Then
         assert result != null;
+        Assertions.assertEquals(stock,result);
     }
 
     @Test
@@ -72,6 +76,7 @@ class StockServiceImplTest {
     void testUpdateStock() {
         // Given
         Stock stock = new Stock();
+        stock.setIdStock(2L);
 
         // When
         when(stockRepository.save(stock)).thenReturn(stock);
@@ -79,6 +84,7 @@ class StockServiceImplTest {
 
         // Then
         assert result != null;
+        Assertions.assertEquals(stock,result);
     }
 
     @Test
@@ -86,13 +92,15 @@ class StockServiceImplTest {
         // Given
         Long stockId = 1L;
         Stock stock = new Stock();
-        when(stockRepository.findById(stockId)).thenReturn(Optional.of(stock));
+        stock.setIdStock(1L);
+        when(stockRepository.findById(1L)).thenReturn(Optional.of(stock));
 
         // When
         Stock result = stockService.retrieveStock(stockId);
 
         // Then
         assert result != null;
+        Assertions.assertEquals(stock,result);
     }
 
 
