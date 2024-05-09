@@ -1,5 +1,6 @@
 package tn.esprit.rh.achat;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -42,18 +43,21 @@ class OperateurServiceImplTest {
         // Then
         assert !result.isEmpty();
         assert result.size() == 2;
+        Assertions.assertEquals(operateurs,result);
     }
 
     @Test
     void testAddOperateur() {
         // Given
         Operateur operateur = new Operateur();
+        operateur.setIdOperateur(1L);
 
         // When
         Operateur result = operateurService.addOperateur(operateur);
 
         // Then
         assert result != null;
+        Assertions.assertEquals(operateur,result);
     }
 
     @Test
@@ -72,12 +76,15 @@ class OperateurServiceImplTest {
     void testUpdateOperateur() {
         // Given
         Operateur operateur = new Operateur();
+        operateur.setIdOperateur(5L);
+        operateur.setNom("new op");
 
         // When
         Operateur result = operateurService.updateOperateur(operateur);
 
         // Then
         assert result != null;
+        Assertions.assertEquals(operateur,result);
     }
 
     @Test
@@ -85,6 +92,7 @@ class OperateurServiceImplTest {
         // Given
         Long operateurId = 1L;
         Operateur operateur = new Operateur();
+        operateur.setIdOperateur(1L);
         when(operateurRepository.findById(operateurId)).thenReturn(Optional.of(operateur));
 
         // When
@@ -92,6 +100,7 @@ class OperateurServiceImplTest {
 
         // Then
         assert result != null;
+        Assertions.assertEquals(operateur,result);
     }
 }
 

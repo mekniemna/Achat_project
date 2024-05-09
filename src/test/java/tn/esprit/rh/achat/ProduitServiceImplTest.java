@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.*;
 
 public class ProduitServiceImplTest {
@@ -51,6 +53,8 @@ public class ProduitServiceImplTest {
         // Then
         assert !result.isEmpty();
         assert result.size() == 2;
+        assertFalse(result.isEmpty());
+        assertEquals(2, result.size());
     }
 
     @Test
@@ -120,5 +124,7 @@ public class ProduitServiceImplTest {
 
         // Then
         assert produit.getStock() == stock;
+        assertEquals(stock, produit.getStock());
+
     }
 }

@@ -1,5 +1,6 @@
 package tn.esprit.rh.achat;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -42,6 +43,7 @@ class SecteurActiviteServiceImplTest {
         // Then
         assert !result.isEmpty();
         assert result.size() == 2;
+        Assertions.assertEquals(secteursActivite,result);
     }
 
     @Test
@@ -54,12 +56,16 @@ class SecteurActiviteServiceImplTest {
 
         // Then
         assert result != null;
+        Assertions.assertEquals(secteurActivite,result);
     }
 
     @Test
     void testDeleteSecteurActivite() {
         // Given
         Long secteurActiviteId = 1L;
+        SecteurActivite secteurActivite = new SecteurActivite();
+        secteurActivite.setIdSecteurActivite(secteurActiviteId);
+
 
         // When
         secteurActiviteService.deleteSecteurActivite(secteurActiviteId);
@@ -72,12 +78,16 @@ class SecteurActiviteServiceImplTest {
     void testUpdateSecteurActivite() {
         // Given
         SecteurActivite secteurActivite = new SecteurActivite();
+        secteurActivite.setIdSecteurActivite(1L);
+        secteurActivite.setCodeSecteurActivite("test_update");
+
 
         // When
         SecteurActivite result = secteurActiviteService.updateSecteurActivite(secteurActivite);
 
         // Then
         assert result != null;
+        Assertions.assertEquals(secteurActivite,result);
     }
 
     @Test
@@ -85,13 +95,15 @@ class SecteurActiviteServiceImplTest {
         // Given
         Long secteurActiviteId = 1L;
         SecteurActivite secteurActivite = new SecteurActivite();
+        secteurActivite.setIdSecteurActivite(secteurActiviteId);
         when(secteurActiviteRepository.findById(secteurActiviteId)).thenReturn(Optional.of(secteurActivite));
 
         // When
-        SecteurActivite result = secteurActiviteService.retrieveSecteurActivite(secteurActiviteId);
+        SecteurActivite result = secteurActiviteService.retrieveSecteurActivite(1L);
 
         // Then
         assert result != null;
+        Assertions.assertEquals(secteurActivite,result);
     }
 }
 
