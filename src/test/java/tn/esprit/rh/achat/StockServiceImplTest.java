@@ -95,8 +95,5 @@ class StockServiceImplTest {
         assert result != null;
     }
 
-    @Test
-    void testRetrieveStatusStock() {
-        // Write appropriate test cases if possible, considering the method's behavior and dependencies.
-    }
+
 }

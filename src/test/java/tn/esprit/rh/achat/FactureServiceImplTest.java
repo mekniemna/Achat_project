@@ -80,5 +80,4 @@ class FactureServiceImplTest {
         verify(factureRepository, times(1)).save(facture);
     }
 
-    // You can continue adding similar tests for other methods in the service class.
 }
