@@ -1,0 +1,37 @@
+version: "3.9"
+services:
+
+  achat:
+    container_name: achat_container
+    image: "souhasekma/achat-project:1.0.0"
+    ports:
+      - "8089:8089"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db-mysql:3306/achatdb?createDatabaseIfNotExist=true&userSSL=false&max_allowed_packet=15728640
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=
+
+    depends_on:
+      -  db-mysql
+
+  db-mysql:
+    image: "mysql:5.6"
+    container_name: db-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=
+    ports:
+      - "3307:3306"
+    restart: unless-stopped
+    volumes:
+      - db:/var/lib/mysql
+
+
+  node-exporter:
+    image: prom/node-exporter
+    container_name: node-exporter
+    ports:
+      - "9100:9100"
+
+
+volumes:
+  db:
