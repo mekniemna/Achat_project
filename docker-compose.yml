@@ -3,7 +3,7 @@ services:
 
   achat:
     container_name: achat_container
-    image: "mayssaderwish/achat_img"
+    image: "mayssaderwish/achat_img:1.0.0"
     ports:
       - "8089:8089"
     environment:
